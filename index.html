@@ -1,0 +1,1811 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>creative Adawy</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Syne:wght@800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      :root {
+        --primary: #000000;
+        --accent: #25d366;
+        --bg: #ffffff;
+        --text: #000000;
+        --gray: #f4f4f4;
+        --white: #ffffff;
+        --facebook: #1877f2;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Cairo", sans-serif;
+      }
+
+      body {
+        background-color: var(--bg);
+        color: var(--text);
+        overflow-x: hidden;
+      }
+
+      /* Intro Animation */
+      #intro {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: #ffffff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
+      }
+
+      .intro-logo {
+        font-family: "Syne", sans-serif;
+        font-size: 3.5rem;
+        font-weight: 900;
+        animation: fadeInUp 0.8s forwards;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Navbar */
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+        border-bottom: 1px solid #eee;
+      }
+
+      .logo {
+        font-family: "Syne", sans-serif;
+        font-size: 1.8rem;
+        font-weight: 900;
+      }
+
+      .nav-tools {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+      }
+
+      .social-links {
+        display: flex;
+        gap: 1.2rem;
+        margin-left: 1rem;
+      }
+
+      .social-icon {
+        text-decoration: none;
+        transition: transform 0.2s;
+        display: flex;
+        align-items: center;
+      }
+
+      .social-icon img {
+        width: 24px;
+        height: 24px;
+        object-fit: contain;
+      }
+
+      .social-icon:hover {
+        transform: scale(1.2);
+      }
+
+      .cart-status {
+        position: relative;
+        background: var(--primary);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+
+      .cart-status:hover {
+        transform: scale(1.05);
+      }
+
+      .cart-count {
+        background: var(--accent);
+        color: black;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.7rem;
+      }
+
+      /* Hero */
+      header {
+        padding: 8rem 2rem 3rem;
+        text-align: center;
+      }
+
+      .hero-title {
+        font-family: "Syne", sans-serif;
+        font-size: 5rem;
+        line-height: 1;
+        font-weight: 900;
+        margin-bottom: 2rem;
+      }
+
+      /* Search Section */
+      .search-bar {
+        max-width: 600px;
+        margin: 0 auto 3rem;
+        display: flex;
+        background: var(--gray);
+        padding: 0.4rem;
+        border-radius: 100px;
+        border: 2px solid transparent;
+        transition: border-color 0.3s;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--primary);
+      }
+
+      .search-bar input {
+        flex: 1;
+        background: none;
+        border: none;
+        padding: 0 1.5rem;
+        outline: none;
+        font-size: 1.1rem;
+      }
+
+      .search-bar button {
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 0.8rem 2rem;
+        border-radius: 100px;
+        cursor: pointer;
+        font-weight: bold;
+      }
+
+      /* Grid */
+      .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 2.5rem;
+        padding: 2rem;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      @media (max-width: 600px) {
+        .products-grid {
+          grid-template-columns: repeat(2, 1fr);
+          padding: 1rem;
+          gap: 1rem;
+        }
+      }
+
+      .product-card {
+        opacity: 0;
+        transform: translateY(50px) rotateX(10deg);
+        transition: all 0.8s cubic-bezier(0.2, 1, 0.3, 1);
+        perspective: 1000px;
+      }
+
+      .product-card.reveal {
+        opacity: 1;
+        transform: translateY(0) rotateX(0);
+      }
+
+      .image-container {
+        position: relative;
+        aspect-ratio: 3/4;
+        overflow: hidden;
+        background: var(--gray);
+        border-radius: 24px;
+        cursor: pointer;
+      }
+
+      .product-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.8s cubic-bezier(0.2, 1, 0.3, 1);
+      }
+
+      .product-card:hover .product-img {
+        transform: scale(1.1);
+      }
+
+      .overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.2);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 1.5rem;
+        opacity: 0;
+        transition: opacity 0.3s;
+        backdrop-filter: blur(2px);
+      }
+
+      .product-card:hover .overlay {
+        opacity: 1;
+      }
+
+      .action-btns {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        transform: translateY(20px);
+        transition: transform 0.3s;
+      }
+
+      .product-card:hover .action-btns {
+        transform: translateY(0);
+      }
+
+      .btn {
+        padding: 1rem;
+        border-radius: 16px;
+        font-weight: 900;
+        border: none;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        font-size: 0.95rem;
+      }
+
+      .btn-cart {
+        background: white;
+        color: black;
+      }
+      .btn-wa {
+        background: var(--accent);
+        color: white;
+      }
+
+      .plus-badge {
+        position: absolute;
+        top: 1.2rem;
+        left: 1.2rem;
+        background: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        font-weight: bold;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        z-index: 5;
+        transition: 0.3s;
+      }
+
+      .product-info {
+        padding: 1rem 0.5rem;
+      }
+      .product-title {
+        font-weight: 800;
+        font-size: 1.2rem;
+        margin-bottom: 0.2rem;
+      }
+      .product-price {
+        color: #666;
+        font-weight: 600;
+      }
+
+      /* Cart Sidebar */
+      #cartSidebar {
+        position: fixed;
+        top: 0;
+        left: -400px;
+        width: 100%;
+        max-width: 400px;
+        height: 100vh;
+        background: white;
+        z-index: 3000;
+        box-shadow: 20px 0 50px rgba(0, 0, 0, 0.1);
+        transition: left 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+        display: flex;
+        flex-direction: column;
+      }
+
+      #cartSidebar.active {
+        left: 0;
+      }
+
+      .cart-header {
+        padding: 2rem;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .cart-items {
+        flex: 1;
+        padding: 2rem;
+        overflow-y: auto;
+      }
+
+      .cart-footer {
+        padding: 2rem;
+        border-top: 1px solid #eee;
+      }
+
+      .overlay-bg {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 2500;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.5s;
+      }
+
+      .overlay-bg.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .cart-item {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        align-items: center;
+      }
+
+      .cart-item img {
+        width: 70px;
+        height: 70px;
+        object-fit: cover;
+        border-radius: 12px;
+      }
+
+      /* About Section */
+      #about {
+        background: #121111;
+        padding: 5rem 2rem;
+        margin-top: 4rem;
+        position: relative;
+        z-index: 10;
+        width: 100%;
+        display: block;
+        clear: both;
+      }
+
+      .about-grid {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+      }
+
+      .about-text h2 {
+        font-family: "Syne", sans-serif;
+        font-size: 4rem;
+        margin-bottom: 1.5rem;
+        color: var(--white);
+      }
+      .contact-item h4 {
+        color: #666;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        margin-bottom: 0.8rem;
+      }
+      .contact-link {
+        display: block;
+        color: hsl(0, 100%, 99%);
+        text-decoration: none;
+        margin: 0.5rem 0;
+        transition: 0.3s;
+      }
+      .contact-details h4 {
+        color: var(--primary);
+        margin-bottom: 1rem;
+        font-size: 1.2rem;
+      }
+      .payment-tags {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      .tag {
+        background: #ffffff;
+        padding: 0.6rem 1.8rem;
+        border-radius: 12px;
+        font-weight: bold;
+        border: 1px solid #333;
+      }
+      .visa-no {
+        color: #ff4d4d;
+        font-weight: bold;
+        margin-top: 1.5rem;
+        display: block;
+        font-size: 0.9rem;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 600px) {
+        .hero-title {
+          font-size: 2.5rem;
+        }
+        .products-grid {
+          grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+          gap: 1rem;
+          padding: 1rem;
+        }
+        .image-container {
+          border-radius: 16px;
+        }
+        .product-title {
+          font-size: 0.9rem;
+        }
+        .product-price {
+          font-size: 0.8rem;
+        }
+        .nav-tools {
+          gap: 0.5rem;
+        }
+        .social-links {
+          display: none;
+        } /* Hide in small nav to save space */
+        .product-card {
+          transform: none;
+        }
+        .payment-tags {
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+        .tag {
+          font-size: 0.85rem;
+          padding: 0.4rem 0.8rem;
+        }
+        .visa-no {
+          font-size: 0.75rem;
+        }
+        #about {
+          padding: 3rem 1rem !important;
+          margin-top: 2rem !important;
+          display: block !important;
+          visibility: visible !important;
+          opacity: 1 !important;
+          background: #f8f9fa !important;
+          position: relative !important;
+        }
+        .about-grid {
+          display: flex !important;
+          flex-direction: column !important;
+          gap: 2rem !important;
+          text-align: center;
+        }
+        .about-text h2 {
+          font-size: 2.5rem !important;
+          margin-bottom: 1rem !important;
+        }
+        .about-text p {
+          font-size: 1.1rem !important;
+          text-align: center;
+        }
+        .contact-details {
+          gap: 2rem !important;
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center;
+        }
+        .contact-link {
+          font-size: 1.1rem !important;
+          text-align: center;
+        }
+      }
+
+      /* Go to Top Button */
+      #scrollTop {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        background: var(--primary);
+        color: white;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 2000;
+        opacity: 0;
+        transition: 0.3s;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
+      #scrollTop.visible {
+        opacity: 1;
+      }
+      @media (max-width: 600px) {
+        .product-card {
+          transform: none;
+        }
+      }
+      html,
+      body {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="scrollTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+      ↑
+    </div>
+
+    <div id="intro">
+      <div class="intro-logo">CREATIVE Adawy</div>
+      <div style="color: #666; margin-top: 10px">
+        مرحبا بك في creative Adawy
+      </div>
+    </div>
+
+    <div class="overlay-bg" id="cartOverlay" onclick="toggleCart()"></div>
+
+    <div id="cartSidebar">
+      <div class="cart-header">
+        <h2 style="font-weight: 900">حقيبة التسوق</h2>
+        <button
+          onclick="toggleCart()"
+          style="
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+          "
+        >
+          ✕
+        </button>
+      </div>
+      <div class="cart-items" id="cartItemList">
+        <p style="text-align: center; color: #888; margin-top: 2rem">
+          حقيبتك فارغة حالياً
+        </p>
+      </div>
+      <div class="cart-footer">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-weight: 800;
+            font-size: 1.2rem;
+          "
+        >
+          <span>الإجمالي:</span>
+          <span id="cartTotal">0 EGP</span>
+        </div>
+        <a
+          id="checkoutWA"
+          href="https://wa.me/201068304029"
+          target="_blank"
+          class="btn btn-wa"
+          style="display: block; width: 100%"
+          >إتمام الطلب عبر واتساب</a
+        >
+      </div>
+    </div>
+
+    <nav>
+      <div class="logo">CREATIVE Adawy</div>
+      <div class="nav-tools">
+        <div class="social-links">
+          <a class="social-icon"> </a>
+          <a
+            href="https://wa.me/201068304029"
+            target="_blank"
+            class="social-icon"
+          >
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
+              alt="WhatsApp"
+            />
+          </a>
+        </div>
+        <div class="cart-status" onclick="toggleCart()">
+          <span>السلة</span>
+          <span class="cart-count" id="cartCount">0</span>
+        </div>
+      </div>
+    </nav>
+
+    <header>
+      <h1 class="hero-title">hello in<br />our world</h1>
+      <div class="search-bar">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="ابحث عن موديل، لون، أو نوع..."
+        />
+        <button onclick="handleSearch()">بحث</button>
+      </div>
+    </header>
+
+    <main class="products-grid" id="grid"></main>
+
+    <section id="about">
+      <div class="about-grid">
+        <div class="about-text">
+          <h2>Creative Adawy</h2>
+          <p style="font-size: 1.3rem; line-height: 1.7; color: hsl(0, 0%, 100%)">
+            نحن نؤمن بأن الأناقة تبدأ من الداخل. كشركة متخصصة في الملابس العصرية
+            بنظام الأون لاين فقط، نوفر لك تجربة تسوق فريدة تصلك أينما كنت. لا
+            فروع لنا، عالمنا هو شاشتك.
+          </p>
+        </div>
+        <div
+          class="contact-details"
+          style="display: flex; flex-direction: column; gap: 3rem"
+        >
+          <div>
+            <h4>تواصل مباشر</h4>
+            <a href="tel:01068304029" class="contact-link">01068304029</a>
+            <a href="tel:01021909650" class="contact-link">01141193704</a>
+          </div>
+          <div>
+            <h4>روابط التواصل Social Links</h4>
+            <a
+              href="https://wa.me/201068304029"
+              class="contact-link"
+              style="
+                color: #25d366;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+              "
+              target="_blank"
+            >
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
+                style="width: 24px"
+                alt="WhatsApp"
+              />
+              WhatsApp: 01068304029
+            </a>
+            <a
+              class="contact-link"
+              style="
+                color: var(--facebook);
+                display: flex;
+                align-items: center;
+                gap: 10px;
+              "
+            >
+            </a>
+          </div>
+          <div>
+            <h4>طرق الدفع والتحصيل</h4>
+            <div class="payment-tags">
+              <span class="tag">InstaPay</span>
+              <span class="tag">Vodafone Cash</span>
+            </div>
+            <span class="visa-no">⚠️ عذراً: لا يتوفر دفع Visa حالياً</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      // Data & State
+      const waNumber = "01068304029";
+      let cart = [];
+      let soldItems = JSON.parse(localStorage.getItem("soldItems")) || [];
+
+      const allProducts = [
+        {
+          id: 1,
+          title: "تيشرت أوفر سايز أسود",
+          price: 450,
+          img: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800",
+        },
+        {
+          id: 2,
+          title: "بنطلون كارغو زيتي",
+          price: 650,
+          img: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=800",
+        },
+        {
+          id: 3,
+          title: "هودي قطن رمادي",
+          price: 550,
+          img: "https://images.unsplash.com/photo-1556886657613-9f3515b0c78f?w=800",
+        },
+        {
+          id: 4,
+          title: "قميص كتان أبيض",
+          price: 480,
+          img: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=800",
+        },
+        {
+          id: 5,
+          title: "جاكيت جينز كلاسيك",
+          price: 850,
+          img: "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=800",
+        },
+        {
+          id: 6,
+          title: "سويت شيرت بادي",
+          price: 420,
+          img: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=800",
+        },
+        {
+          id: 7,
+          title: "شورت ميلتون أسود",
+          price: 280,
+          img: "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=800",
+        },
+        {
+          id: 8,
+          title: "قميص مشجر صيفي",
+          price: 390,
+          img: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=800",
+        },
+        {
+          id: 9,
+          title: "تيشرت مخطط نيفي",
+          price: 320,
+          img: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800",
+        },
+        {
+          id: 10,
+          title: "بنطلون جينز سليم",
+          price: 580,
+          img: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=800",
+        },
+        {
+          id: 11,
+          title: "بليزر كاجوال كحلي",
+          price: 1200,
+          img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800",
+        },
+        {
+          id: 12,
+          title: "كارديجان صوف ناعم",
+          price: 720,
+          img: "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=800",
+        },
+        {
+          id: 13,
+          title: "تيشرت بولو أبيض",
+          price: 380,
+          img: "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=800",
+        },
+        {
+          id: 14,
+          title: "جاكيت جلد أسود",
+          price: 1500,
+          img: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800",
+        },
+        {
+          id: 15,
+          title: "بنطلون قماش بيج",
+          price: 520,
+          img: "https://images.unsplash.com/photo-1473966968600-fa804b869628?w=800",
+        },
+        {
+          id: 16,
+          title: "سويت بانوتس رياضي",
+          price: 460,
+          img: "https://images.unsplash.com/photo-1580487212796-73ff480570ba?w=800",
+        },
+        {
+          id: 17,
+          title: "هودي مطبوع كول",
+          price: 600,
+          img: "https://images.unsplash.com/photo-1509948914849-038247394946?w=800",
+        },
+        {
+          id: 18,
+          title: "تيشرت V-Neck كحلي",
+          price: 290,
+          img: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800",
+        },
+        {
+          id: 19,
+          title: "قميص كاروهات أحمر",
+          price: 440,
+          img: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=800",
+        },
+        {
+          id: 20,
+          title: "جاكيت بومبر زيتي",
+          price: 980,
+          img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800",
+        },
+        {
+          id: 21,
+          title: "تيشرت أوفر سايز أبيض",
+          price: 450,
+          img: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=801",
+        },
+        {
+          id: 22,
+          title: "بنطلون كارجو أسود",
+          price: 650,
+          img: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=801",
+        },
+        {
+          id: 23,
+          title: "هودي أزرق سماوي",
+          price: 550,
+          img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=801",
+        },
+        {
+          id: 24,
+          title: "قميص كاجوال بيج",
+          price: 480,
+          img: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=801",
+        },
+        {
+          id: 25,
+          title: "جاكيت منفوخ أسود",
+          price: 1200,
+          img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=801",
+        },
+        {
+          id: 26,
+          title: "بنطلون رياضي أسود",
+          price: 420,
+          img: "https://images.unsplash.com/photo-1580487212796-73ff480570ba?w=801",
+        },
+        {
+          id: 27,
+          title: "تيشرت مخطط صيفي",
+          price: 320,
+          img: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=801",
+        },
+        {
+          id: 28,
+          title: "قميص مربعات أخضر",
+          price: 460,
+          img: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=801",
+        },
+        {
+          id: 29,
+          title: "جاكيت جينز أسود",
+          price: 880,
+          img: "https://images.unsplash.com/photo-1551537482-f2075a1d41f2?w=801",
+        },
+        {
+          id: 30,
+          title: "بنطلون جينز فاتح",
+          price: 590,
+          img: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=801",
+        },
+        {
+          id: 31,
+          title: "سويت شيرت كحلي",
+          price: 470,
+          img: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=801",
+        },
+        {
+          id: 32,
+          title: "تيشرت سادة رمادي",
+          price: 280,
+          img: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=802",
+        },
+        {
+          id: 33,
+          title: "بنطلون تشينو بيج",
+          price: 620,
+          img: "https://images.unsplash.com/photo-1473966968600-fa804b869628?w=801",
+        },
+        {
+          id: 34,
+          title: "قميص جينز غامق",
+          price: 550,
+          img: "https://images.unsplash.com/photo-1598033129183-c4f50c717658?w=801",
+        },
+        {
+          id: 35,
+          title: "هودي مطبوع رمادي",
+          price: 580,
+          img: "https://images.unsplash.com/photo-1509948914849-038247394946?w=801",
+        },
+        {
+          id: 36,
+          title: "تيشرت بولو أزرق",
+          price: 390,
+          img: "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=801",
+        },
+        {
+          id: 37,
+          title: "جاكيت باركا زيتي",
+          price: 1400,
+          img: "https://images.unsplash.com/photo-1539533318447-63bc1104d48a?w=801",
+        },
+        {
+          id: 38,
+          title: "بنطلون جينز ممزق",
+          price: 720,
+          img: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=801",
+        },
+        {
+          id: 39,
+          title: "تيشرت طباعة فنية",
+          price: 360,
+          img: "https://images.unsplash.com/photo-1576566582149-138421c7268d?w=801",
+        },
+        {
+          id: 40,
+          title: "سويت شيرت قطن أصلي",
+          price: 520,
+          img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=802",
+        },
+        {
+          id: 41,
+          title: "قميص كلاسيك أسود",
+          price: 450,
+          img: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=802",
+        },
+        {
+          id: 42,
+          title: "تيشرت قطن أحمر",
+          price: 300,
+          img: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=803",
+        },
+        {
+          id: 43,
+          title: "جاكيت صوف شتوي",
+          price: 1100,
+          img: "https://images.unsplash.com/photo-1539533318447-63bc1104d48a?w=802",
+        },
+        {
+          id: 44,
+          title: "بنطلون كريب نسائي",
+          price: 550,
+          img: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=802",
+        },
+        {
+          id: 45,
+          title: "فستان صيفي منقوش",
+          price: 750,
+          img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=802",
+        },
+        {
+          id: 46,
+          title: "بليزر شيك رمادي",
+          price: 1300,
+          img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=801",
+        },
+        {
+          id: 47,
+          title: "كارديجان طويل بيج",
+          price: 680,
+          img: "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=802",
+        },
+        {
+          id: 48,
+          title: "تيشرت سليم فيت أبيض",
+          price: 350,
+          img: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=802",
+        },
+        {
+          id: 49,
+          title: "جاكيت بامب ووتربروف",
+          price: 1450,
+          img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=802",
+        },
+        {
+          id: 50,
+          title: "بنطلون جينز بوي فريند",
+          price: 620,
+          img: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=802",
+        },
+        {
+          id: 51,
+          title: "قميص أوكسفورد أزرق",
+          price: 490,
+          img: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=803",
+        },
+        {
+          id: 52,
+          title: "هودي أوفر سايز نبيتي",
+          price: 590,
+          img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=803",
+        },
+        {
+          id: 53,
+          title: "جاكيت جينز فاتح جداً",
+          price: 890,
+          img: "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=803",
+        },
+        {
+          id: 54,
+          title: "تيشرت بولو كحلي",
+          price: 420,
+          img: "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=802",
+        },
+        {
+          id: 55,
+          title: "فستان سهرة أسود",
+          price: 1800,
+          img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=803",
+        },
+        {
+          id: 56,
+          title: "بنطلون شارلستون قماش",
+          price: 580,
+          img: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=803",
+        },
+        {
+          id: 57,
+          title: "جاكيت جلد بني",
+          price: 1600,
+          img: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=801",
+        },
+        {
+          id: 58,
+          title: "تيشرت مخطط كاجوال",
+          price: 340,
+          img: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=803",
+        },
+        {
+          id: 59,
+          title: "جاكيت جينز غامق",
+          price: 920,
+          img: "https://images.unsplash.com/photo-1551537482-f2075a1d41f2?w=802",
+        },
+        {
+          id: 60,
+          title: "بنطلون ليجن رياضي",
+          price: 380,
+          img: "https://images.unsplash.com/photo-1580487212796-73ff480570ba?w=802",
+        },
+        {
+          id: 61,
+          title: "سويت شيرت زيتي",
+          price: 480,
+          img: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=802",
+        },
+        {
+          id: 62,
+          title: "تيشرت طباعة أمامية",
+          price: 370,
+          img: "https://images.unsplash.com/photo-1576566582149-138421c7268d?w=802",
+        },
+        {
+          id: 63,
+          title: "جاكيت بومبر أزرق",
+          price: 950,
+          img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=803",
+        },
+        {
+          id: 64,
+          title: "بنطلون كارغو رمالي",
+          price: 670,
+          img: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=804",
+        },
+        {
+          id: 65,
+          title: "تيشرت أوفر سايز أصفر",
+          price: 450,
+          img: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=804",
+        },
+        {
+          id: 66,
+          title: "قميص مشجر أخضر",
+          price: 410,
+          img: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=802",
+        },
+        {
+          id: 67,
+          title: "جاكيت ووتر بروف شيك",
+          price: 1350,
+          img: "https://images.unsplash.com/photo-1539533318447-63bc1104d48a?w=803",
+        },
+        {
+          id: 68,
+          title: "بنطلون جينز غامق",
+          price: 600,
+          img: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=803",
+        },
+        {
+          id: 69,
+          title: "تيشرت سادة موف",
+          price: 290,
+          img: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=805",
+        },
+        {
+          id: 70,
+          title: "هودي مطبوع نسر",
+          price: 620,
+          img: "https://images.unsplash.com/photo-1509948914849-038247394946?w=802",
+        },
+        {
+          id: 71,
+          title: "بليزر رسمي كحلي",
+          price: 1550,
+          img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=802",
+        },
+        {
+          id: 72,
+          title: "جاكيت منفوخ رمادي",
+          price: 1150,
+          img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=804",
+        },
+        {
+          id: 73,
+          title: "بنطلون رياضي قطن",
+          price: 450,
+          img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=804",
+        },
+        {
+          id: 74,
+          title: "تيشرت مطبوع جرافيك",
+          price: 380,
+          img: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=804",
+        },
+        {
+          id: 75,
+          title: "قميص كاروهات أزرق",
+          price: 460,
+          img: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=802",
+        },
+        {
+          id: 76,
+          title: "جاكيت جينز مطرز",
+          price: 1050,
+          img: "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=804",
+        },
+        {
+          id: 77,
+          title: "تيشرت صيفي مخطط",
+          price: 330,
+          img: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=804",
+        },
+        {
+          id: 78,
+          title: "بنطلون كلاسيك أسود",
+          price: 540,
+          img: "https://images.unsplash.com/photo-1473966968600-fa804b869628?w=802",
+        },
+        {
+          id: 79,
+          title: "جاكيت بومبر عسلي",
+          price: 990,
+          img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=805",
+        },
+        {
+          id: 80,
+          title: "تيشرت سليم أبيض",
+          price: 310,
+          img: "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=803",
+        },
+        {
+          id: 81,
+          title: "قميص كتان بيج",
+          price: 495,
+          img: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=804",
+        },
+        {
+          id: 82,
+          title: "جاكيت شتوي منفوخ",
+          price: 1250,
+          img: "https://images.unsplash.com/photo-1539533318447-63bc1104d48a?w=804",
+        },
+        {
+          id: 83,
+          title: "بنطلون رياضي رمادي",
+          price: 430,
+          img: "https://images.unsplash.com/photo-1580487212796-73ff480570ba?w=803",
+        },
+        {
+          id: 84,
+          title: "تيشرت بولو أحمر",
+          price: 395,
+          img: "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=804",
+        },
+        {
+          id: 85,
+          title: "هودي سادة أصفر",
+          price: 560,
+          img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=804",
+        },
+        {
+          id: 86,
+          title: "جاكيت جينز كول",
+          price: 980,
+          img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=805",
+        },
+        {
+          id: 87,
+          title: "فستان ناعم وردي",
+          price: 850,
+          img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=805",
+        },
+        {
+          id: 88,
+          title: "بنطلون جينز وايد ليج",
+          price: 690,
+          img: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=804",
+        },
+        {
+          id: 89,
+          title: "تيشرت طباعة فضاء",
+          price: 410,
+          img: "https://images.unsplash.com/photo-1576566582149-138421c7268d?w=804",
+        },
+        {
+          id: 90,
+          title: "جاكيت جلد نبيتي",
+          price: 1650,
+          img: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=802",
+        },
+        {
+          id: 91,
+          title: "قميص صيفي أزرق",
+          price: 380,
+          img: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=803",
+        },
+        {
+          id: 92,
+          title: "سويت شيرت هافان",
+          price: 540,
+          img: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=803",
+        },
+        {
+          id: 93,
+          title: "بنطلون كارغو كحلي",
+          price: 660,
+          img: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=805",
+        },
+        {
+          id: 94,
+          title: "تيشرت V-Neck رمادي",
+          price: 320,
+          img: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=806",
+        },
+        {
+          id: 95,
+          title: "جاكيت جينز فاتح جداً",
+          price: 870,
+          img: "https://images.unsplash.com/photo-1551537482-f2075a1d41f2?w=803",
+        },
+        {
+          id: 96,
+          title: "بنطلون جينز بوي فريند",
+          price: 630,
+          img: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=802",
+        },
+        {
+          id: 97,
+          title: "تيشرت بولو أخضر",
+          price: 410,
+          img: "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=805",
+        },
+        {
+          id: 98,
+          title: "قميص كلاسيك أبيض",
+          price: 480,
+          img: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=805",
+        },
+        {
+          id: 99,
+          title: "جاكيت بومبر شتوي",
+          price: 1050,
+          img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=806",
+        },
+        {
+          id: 100,
+          title: "تيشرت أوفر سايز رمادي",
+          price: 450,
+          img: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=807",
+        },
+        {
+          id: 101,
+          title: "بنطلون كارجو بني",
+          price: 650,
+          img: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=808",
+        },
+        {
+          id: 102,
+          title: "هودي قطن نبيتي",
+          price: 550,
+          img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=809",
+        },
+        {
+          id: 103,
+          title: "قميص جينز كلاسيك",
+          price: 520,
+          img: "https://images.unsplash.com/photo-1598033129183-c4f50c717658?w=810",
+        },
+        {
+          id: 104,
+          title: "تيشرت بولو أصفر",
+          price: 400,
+          img: "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=811",
+        },
+        {
+          id: 105,
+          title: "جاكيت بامب كحلي",
+          price: 1400,
+          img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=812",
+        },
+        {
+          id: 106,
+          title: "بنطلون جينز رمادي",
+          price: 590,
+          img: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=813",
+        },
+        {
+          id: 107,
+          title: "تيشرت طباعة عصرية",
+          price: 380,
+          img: "https://images.unsplash.com/photo-1576566582149-138421c7268d?w=814",
+        },
+        {
+          id: 108,
+          title: "سويت شيرت قطن رمادي",
+          price: 510,
+          img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=815",
+        },
+        {
+          id: 109,
+          title: "قميص كتان كحلي",
+          price: 550,
+          img: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=816",
+        },
+        {
+          id: 110,
+          title: "جاكيت جلد بني محروق",
+          price: 1700,
+          img: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=817",
+        },
+        {
+          id: 111,
+          title: "بنطلون رياضي زيتي",
+          price: 440,
+          img: "https://images.unsplash.com/photo-1580487212796-73ff480570ba?w=818",
+        },
+        {
+          id: 112,
+          title: "تيشرت مخطط أحمر",
+          price: 320,
+          img: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=819",
+        },
+        {
+          id: 113,
+          title: "هودي مطبوع نيون",
+          price: 640,
+          img: "https://images.unsplash.com/photo-1509948914849-038247394946?w=820",
+        },
+        {
+          id: 114,
+          title: "جاكيت ووتربروف أصفر",
+          price: 1300,
+          img: "https://images.unsplash.com/photo-1539533318447-63bc1104d48a?w=821",
+        },
+        {
+          id: 115,
+          title: "بنطلون تشينو أسود",
+          price: 600,
+          img: "https://images.unsplash.com/photo-1473966968600-fa804b869628?w=822",
+        },
+        {
+          id: 116,
+          title: "تيشرت سادة تيل",
+          price: 280,
+          img: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=823",
+        },
+        {
+          id: 117,
+          title: "قميص صيفي هاواي",
+          price: 420,
+          img: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=824",
+        },
+        {
+          id: 118,
+          title: "جاكيت بومبر رمادي",
+          price: 950,
+          img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=825",
+        },
+        {
+          id: 119,
+          title: "بنطلون جينز كلاسيك",
+          price: 550,
+          img: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=826",
+        },
+        {
+          id: 120,
+          title: "تيشرت أوفر سايز بيج",
+          price: 450,
+          img: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=827",
+        },
+        {
+          id: 121,
+          title: "سويت شيرت مطبوع",
+          price: 530,
+          img: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=828",
+        },
+        {
+          id: 122,
+          title: "بنطلون كارجو رمادي",
+          price: 680,
+          img: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=829",
+        },
+        {
+          id: 123,
+          title: "هودي صوف ناعم",
+          price: 570,
+          img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=830",
+        },
+        {
+          id: 124,
+          title: "تيشرت بولو أخضر غامق",
+          price: 410,
+          img: "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=831",
+        },
+        {
+          id: 125,
+          title: "جاكيت بامب أحمر",
+          price: 1420,
+          img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=832",
+        },
+        {
+          id: 126,
+          title: "بنطلون جينز داكن",
+          price: 610,
+          img: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=833",
+        },
+        {
+          id: 127,
+          title: "تيشرت جرافيك فني",
+          price: 390,
+          img: "https://images.unsplash.com/photo-1576566582149-138421c7268d?w=834",
+        },
+        {
+          id: 128,
+          title: "سويت شيرت كحلي سادة",
+          price: 490,
+          img: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=835",
+        },
+        {
+          id: 129,
+          title: "قميص كاروهات أخضر",
+          price: 470,
+          img: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=836",
+        },
+        {
+          id: 130,
+          title: "جاكيت جلد عسلي",
+          price: 1680,
+          img: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=837",
+        },
+        {
+          id: 131,
+          title: "بنطلون رياضي أسود مخطط",
+          price: 450,
+          img: "https://images.unsplash.com/photo-1580487212796-73ff480570ba?w=838",
+        },
+        {
+          id: 132,
+          title: "تيشرت مخطط نيفي وأبيض",
+          price: 340,
+          img: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=839",
+        },
+        {
+          id: 133,
+          title: "هودي مطبوع أسود",
+          price: 660,
+          img: "https://images.unsplash.com/photo-1509948914849-038247394946?w=840",
+        },
+        {
+          id: 134,
+          title: "جاكيت ووتربروف كحلي",
+          price: 1320,
+          img: "https://images.unsplash.com/photo-1539533318447-63bc1104d48a?w=841",
+        },
+        {
+          id: 135,
+          title: "بنطلون تشينو زيتي",
+          price: 620,
+          img: "https://images.unsplash.com/photo-1473966968600-fa804b869628?w=842",
+        },
+        {
+          id: 136,
+          title: "تيشرت سادة رمادي فاتح",
+          price: 290,
+          img: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=843",
+        },
+        {
+          id: 137,
+          title: "قميص صيفي منقوش",
+          price: 430,
+          img: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=844",
+        },
+        {
+          id: 138,
+          title: "جاكيت بومبر أسود",
+          price: 980,
+          img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=845",
+        },
+        {
+          id: 139,
+          title: "بنطلون جينز أزرق",
+          price: 570,
+          img: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=846",
+        },
+        {
+          id: 140,
+          title: "تيشرت أوفر سايز زيتي",
+          price: 450,
+          img: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=847",
+        },
+        {
+          id: 141,
+          title: "سويت شيرت مطبوع كول",
+          price: 540,
+          img: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=848",
+        },
+        {
+          id: 142,
+          title: "بنطلون كارجو كحلي غامق",
+          price: 690,
+          img: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=849",
+        },
+        {
+          id: 143,
+          title: "هودي قطن أبيض",
+          price: 580,
+          img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=850",
+        },
+        {
+          id: 144,
+          title: "تيشرت بولو رمادي",
+          price: 420,
+          img: "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=851",
+        },
+        {
+          id: 145,
+          title: "جاكيت بامب أخضر",
+          price: 1440,
+          img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=852",
+        },
+        {
+          id: 146,
+          title: "بنطلون جينز رمادي غامق",
+          price: 620,
+          img: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=853",
+        },
+        {
+          id: 147,
+          title: "تيشرت جرافيك فضاء",
+          price: 400,
+          img: "https://images.unsplash.com/photo-1576566582149-138421c7268d?w=854",
+        },
+        {
+          id: 148,
+          title: "سويت شيرت أسود سادة",
+          price: 500,
+          img: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=855",
+        },
+        {
+          id: 149,
+          title: "قميص كاروهات أزرق فاتح",
+          price: 480,
+          img: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=856",
+        },
+        {
+          id: 150,
+          title: "جاكيت جلد أسود فاخر",
+          price: 1750,
+          img: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=857",
+        },
+      ];
+
+      // Intro handle
+      window.addEventListener("load", () => {
+        setTimeout(() => {
+          document.getElementById("intro").style.transform =
+            "translateY(-100%)";
+        }, 2000);
+        renderProducts(allProducts);
+      });
+
+      // Rendering logic
+      function renderProducts(list) {
+        const grid = document.getElementById("grid");
+        grid.innerHTML = "";
+
+        // تصفية المنتجات المباعة
+        const availableProducts = list.filter((p) => !soldItems.includes(p.id));
+
+        availableProducts.forEach((p, i) => {
+          const card = document.createElement("div");
+          card.className = "product-card";
+          card.innerHTML = `
+                        <div class="image-container" onclick="addToCart(${p.id})">
+                            <div class="plus-badge" onclick="event.stopPropagation(); addToCart(${p.id})">+</div>
+                            <img src="${p.img}" class="product-img" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800'">
+                            <div class="overlay">
+                                <div class="action-btns">
+                                    <button class="btn btn-cart" onclick="event.stopPropagation(); addToCart(${p.id})">إضافة للسلة</button>
+                                    <a href="https://wa.me/2${waNumber}?text=استفسار عن ${p.title}" class="btn btn-wa" onclick="event.stopPropagation()" target="_blank">اطلب واتساب</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-title">${p.title}</div>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div class="product-price">${p.price} EGP</div>
+                                <div style="color: #25D366; font-size: 0.8rem; font-weight: bold;">متوفر ✅</div>
+                            </div>
+                        </div>
+                    `;
+          grid.appendChild(card);
+        });
+        setupScrollAnimation();
+      }
+
+      // Scroll Reveal & Top Button
+      window.addEventListener("scroll", () => {
+        const btn = document.getElementById("scrollTop");
+        if (window.scrollY > 500) btn.classList.add("visible");
+        else btn.classList.remove("visible");
+      });
+
+      function setupScrollAnimation() {
+        const cards = document.querySelectorAll(".product-card");
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("reveal");
+              }
+            });
+          },
+          { threshold: 0.1 }
+        );
+        cards.forEach((card) => observer.observe(card));
+      }
+
+      // Cart Actions
+      function toggleCart() {
+        document.getElementById("cartSidebar").classList.toggle("active");
+        document.getElementById("cartOverlay").classList.toggle("active");
+      }
+
+      function addToCart(productId) {
+        const product = allProducts.find((p) => p.id === productId);
+        cart.push(product);
+        updateCartUI();
+
+        // Animation for cart badge
+        const badge = document.getElementById("cartCount");
+        badge.style.transform = "scale(1.5)";
+        setTimeout(() => (badge.style.transform = "scale(1)"), 200);
+      }
+
+      function updateCartUI() {
+        document.getElementById("cartCount").innerText = cart.length;
+        const list = document.getElementById("cartItemList");
+        let total = 0;
+
+        if (cart.length === 0) {
+          list.innerHTML =
+            '<p style="text-align: center; color: #888; margin-top: 2rem;">حقيبتك فارغة حالياً</p>';
+        } else {
+          list.innerHTML = cart
+            .map((item, index) => {
+              total += item.price;
+              return `
+                            <div class="cart-item">
+                                <img src="${item.img}" onerror="this.src='https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800'">
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 800;">${item.title}</div>
+                                    <div style="color: #666;">${item.price} EGP</div>
+                                </div>
+                                <button onclick="removeFromCart(${index})" style="background: none; border: none; color: #ff4d4d; cursor: pointer;">حذف</button>
+                            </div>
+                        `;
+            })
+            .join("");
+        }
+
+        document.getElementById("cartTotal").innerText = `${total} EGP`;
+        const waText = `طلب جديد من متجر Creative Adawy:\n${cart
+          .map((i) => `- ${i.title} (${i.price} EGP)`)
+          .join("\n")}\nالإجمالي: ${total} EGP`;
+
+        const checkoutBtn = document.getElementById("checkoutWA");
+        const waUrl = `https://wa.me/2${waNumber}?text=${encodeURIComponent(
+          waText
+        )}`;
+
+        checkoutBtn.onclick = (e) => {
+          e.preventDefault();
+          if (cart.length === 0) return;
+
+          // تسجيل المنتجات كمباعة
+          cart.forEach((item) => {
+            if (!soldItems.includes(item.id)) {
+              soldItems.push(item.id);
+            }
+          });
+          localStorage.setItem("soldItems", JSON.stringify(soldItems));
+
+          // مسح السلة وتحديث الواجهة
+          const finalWaUrl = `https://wa.me/2${waNumber}?text=${encodeURIComponent(
+            waText
+          )}`;
+          cart = [];
+          updateCartUI();
+          renderProducts(allProducts);
+
+          // فتح واتساب
+          window.open(finalWaUrl, "_blank");
+        };
+      }
+
+      function removeFromCart(index) {
+        cart.splice(index, 1);
+        updateCartUI();
+      }
+
+      // Search logic
+      function handleSearch() {
+        const query = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
+        const filtered = allProducts.filter((p) =>
+          p.title.toLowerCase().includes(query)
+        );
+        renderProducts(filtered);
+        if (filtered.length > 0) {
+          document
+            .getElementById("grid")
+            .scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+
+      document
+        .getElementById("searchInput")
+        .addEventListener("keypress", (e) => {
+          if (e.key === "Enter") handleSearch();
+        });
+    </script>
+  </body>
+</html>
