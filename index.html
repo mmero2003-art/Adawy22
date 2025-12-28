@@ -429,17 +429,14 @@
 
       /* About Section */
       #about {
+        background: #f8f9fa;
+        padding: 5rem 2rem;
+        margin-top: 4rem;
         position: relative;
-        top: 0;
+        z-index: 10;
         width: 100%;
-        background: rgba(0, 0, 0);
-        backdrop-filter: blur(10px);
-        padding: 1rem 2rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        z-index: 1000;
-        border-bottom: 1px solid #eee;
+        display: block;
+        clear: both;
       }
 
       .about-grid {
@@ -454,7 +451,7 @@
         font-family: "Syne", sans-serif;
         font-size: 4rem;
         margin-bottom: 1.5rem;
-        color: var(--white);
+        color: var(--primary);
       }
       .contact-item h4 {
         color: #666;
@@ -465,13 +462,13 @@
       }
       .contact-link {
         display: block;
-        color: #fffdfd;
+        color: #666;
         text-decoration: none;
         margin: 0.5rem 0;
         transition: 0.3s;
       }
       .contact-details h4 {
-        color: var(--white);
+        color: var(--primary);
         margin-bottom: 1rem;
         font-size: 1.2rem;
       }
@@ -481,7 +478,7 @@
         margin-top: 1rem;
       }
       .tag {
-        background: hsl(0, 0%, 100%);
+        background: #1a1a1a;
         padding: 0.6rem 1.8rem;
         border-radius: 12px;
         font-weight: bold;
@@ -728,8 +725,8 @@
         transform: scale(1.1);
       }
       .payment-icon {
-        width: 50px;
-        height: 45px;
+        width: 32px;
+        height: 32px;
         object-fit: contain;
         border-radius: 6px;
         background: white;
@@ -739,6 +736,60 @@
       .contact-link.payment {
         color: #555;
         font-weight: 600;
+      }
+
+      /* Added styles for the checkout form modal */
+      #checkoutModal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 5000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(8px);
+        padding: 1rem;
+      }
+
+      #checkoutModal.active {
+        display: flex;
+      }
+
+      .checkout-content {
+        background: white;
+        width: 100%;
+        max-width: 500px;
+        border-radius: 24px;
+        padding: 2.5rem;
+        position: relative;
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 800;
+        font-size: 0.9rem;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 1rem;
+        border: 2px solid #eee;
+        border-radius: 12px;
+        font-size: 1rem;
+        outline: none;
+        transition: border-color 0.3s;
+      }
+
+      .form-group input:focus {
+        border-color: var(--accent);
       }
     </style>
   </head>
@@ -896,6 +947,61 @@
       </div>
     </div>
 
+    <!-- Checkout Form Modal -->
+    <div id="checkoutModal">
+      <div class="checkout-content">
+        <div class="modal-close" onclick="closeCheckoutModal()">✕</div>
+        <h2 style="margin-bottom: 1.5rem; font-weight: 900; text-align: center">
+          بيانات الشحن
+        </h2>
+        <form id="checkoutForm" onsubmit="handleCheckoutSubmit(event)">
+          <div class="form-group">
+            <label>الاسم بالكامل</label>
+            <input
+              type="text"
+              id="custName"
+              required
+              placeholder="أدخل اسمك بالكامل"
+            />
+          </div>
+          <div class="form-group">
+            <label>البريد الإلكتروني (Gmail)</label>
+            <input
+              type="email"
+              id="custEmail"
+              required
+              placeholder="example@gmail.com"
+            />
+          </div>
+          <div class="form-group">
+            <label>رقم الهاتف</label>
+            <input
+              type="tel"
+              id="custPhone"
+              required
+              placeholder="01xxxxxxxxx"
+            />
+          </div>
+          <div class="form-group">
+            <label>العنوان بالتفصيل (اللوكيشن)</label>
+            <textarea
+              id="custLocation"
+              required
+              rows="3"
+              placeholder="أدخل عنوانك بالتفصيل"
+            ></textarea>
+          </div>
+          <button
+            type="submit"
+            class="btn btn-wa"
+            style="width: 100%; border: none; font-size: 1.1rem"
+          >
+            إتمام الطلب وإرسال عبر واتساب
+          </button>
+        </form>
+      </div>
+    </div>
+
     <nav>
       <div class="logo">CREATIVE Adawy</div>
       <div class="nav-tools">
@@ -909,7 +1015,7 @@
           <!-- Added Gmail icon to navbar -->
           <a href="mailto:mmero2003@gmail.com" class="social-icon">
             <img
-              src="https://imgs.search.brave.com/Awud-Udn6YJh3JINm8Rte-hFKw9M5zalWa2XBq244ms/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9jZG4u/cGl4YWJheS5jb20v/cGhvdG8vMjAyMS8w/NS8wNC8xMS8xMy9n/bWFpbC02MjI4MzQx/XzY0MC5wbmc"
+              src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_(2020).svg"
               alt="Gmail"
             />
           </a>
@@ -939,7 +1045,7 @@
       <div class="about-grid">
         <div class="about-text">
           <h2>Creative Adawy</h2>
-          <p style="font-size: 1.3rem; line-height: 1.7; color: #fcfafa">
+          <p style="font-size: 1.3rem; line-height: 1.7; color: #888">
             نحن نؤمن بأن الأناقة تبدأ من الداخل. كشركة متخصصة في الملابس العصرية
             بنظام الأون لاين فقط، نوفر لك تجربة تسوق فريدة تصلك أينما كنت. لا
             فروع لنا، عالمنا هو شاشتك.
@@ -986,7 +1092,7 @@
               "
             >
               <img
-                src="https://imgs.search.brave.com/Awud-Udn6YJh3JINm8Rte-hFKw9M5zalWa2XBq244ms/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9jZG4u/cGl4YWJheS5jb20v/cGhvdG8vMjAyMS8w/NS8wNC8xMS8xMy9n/bWFpbC02MjI4MzQx/XzY0MC5wbmc"
+                src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_(2020).svg"
                 class="payment-icon"
                 alt="Gmail"
               />
@@ -1003,7 +1109,7 @@
               "
             >
               <img
-                src="https://imgs.search.brave.com/teU-LLyknTf-K8M-ZJZe43qqQMGeUdcYTrVl1zDAeUI/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9wbGF5/LWxoLmdvb2dsZXVz/ZXJjb250ZW50LmNv/bS9QdjFwOHYtS0px/NFpfTExPalFqQlpw/SzhETkpnNFpiNWFO/T1FZN1dmb2lIUjRH/ZnMxNjVaMVRUTk1U/aFo4ODNZZmc9dzEw/MjQ"
+                src="https://images.v0.app/instapay-logo.png?query=instapay+logo+icon+simple"
                 class="payment-icon"
                 alt="InstaPay"
               />
@@ -1015,7 +1121,7 @@
               style="display: flex; align-items: center; gap: 10px"
             >
               <img
-                src="https://imgs.search.brave.com/F9NK_kY38D00hRwYAvSCa7ead7zPU0Pjl7Q6MuM3Ovs/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9icmFu/ZGxvZ29zLm5ldC93/cC1jb250ZW50L3Vw/bG9hZHMvMjAxNy8x/MC92b2RhZm9uZS1s/b2dvX2JyYW5kbG9n/b3MubmV0XzlldGly/LTUxMng1MTIucG5n"
+                src="https://images.v0.app/vodafone-cash-logo.png?query=vodafone+cash+logo+icon+red"
                 class="payment-icon"
                 alt="Vodafone Cash"
               />
@@ -1748,9 +1854,9 @@
           id: 64,
           title: "بنطلون كارغو رمالي",
           price: 670,
-          img: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=804",
+          img: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=805",
           gallery: [
-            "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=804",
+            "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=805",
             "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=800",
             "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=800",
           ],
@@ -1946,9 +2052,9 @@
           id: 82,
           title: "جاكيت شتوي منفوخ",
           price: 1250,
-          img: "https://images.unsplash.com/photo-1539533318447-63bc1104d48a?w=804",
+          img: "https://images.unsplash.com/photo-1539533318447-63bc1104d48a?w=803",
           gallery: [
-            "https://images.unsplash.com/photo-1539533318447-63bc1104d48a?w=804",
+            "https://images.unsplash.com/photo-1539533318447-63bc1104d48a?w=803",
             "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=800",
             "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=800",
           ],
@@ -2054,7 +2160,7 @@
         },
         {
           id: 92,
-          title: "سويت شيرت هافان",
+          title: "سويت شيرت كحلي",
           price: 540,
           img: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=803",
           gallery: [
@@ -2089,9 +2195,9 @@
           id: 95,
           title: "جاكيت جينز فاتح جداً",
           price: 870,
-          img: "https://images.unsplash.com/photo-1551537482-f2075a1d41f2?w=803",
+          img: "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=804",
           gallery: [
-            "https://images.unsplash.com/photo-1551537482-f2075a1d41f2?w=803",
+            "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=804",
             "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=800",
             "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=800",
           ],
@@ -2395,7 +2501,7 @@
         },
         {
           id: 123,
-          title: "هودي صوف ناعم",
+          title: "هودي سادة أبيض",
           price: 570,
           img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=830",
           gallery: [
@@ -2868,7 +2974,7 @@
         },
         {
           id: 166,
-          title: "جاكيت ووتر بروف",
+          title: "جاكيت ووتربروف",
           price: 1100,
           img: "https://images.unsplash.com/photo-1539533318447-63bc1104d48a?w=873",
           gallery: [
@@ -3368,36 +3474,12 @@
         }
 
         document.getElementById("cartTotal").innerText = `${total} EGP`;
-        const waText = `طلب جديد من متجر Creative Adawy:\n${cart
-          .map(
-            (i) =>
-              `- ${i.title} (${i.price} EGP) - المقاس: ${i.size}, اللون: ${i.color}`
-          )
-          .join("\n")}\nالإجمالي: ${total} EGP`;
 
         const checkoutBtn = document.getElementById("checkoutWA");
         checkoutBtn.onclick = (e) => {
           e.preventDefault();
           if (cart.length === 0) return;
-
-          // تسجيل المنتجات كمباعة
-          cart.forEach((item) => {
-            if (!soldItems.includes(item.id)) {
-              soldItems.push(item.id);
-            }
-          });
-          localStorage.setItem("soldItems", JSON.stringify(soldItems));
-
-          // مسح السلة وتحديث الواجهة
-          const finalWaUrl = `https://wa.me/2${waNumber}?text=${encodeURIComponent(
-            waText
-          )}`;
-          cart = [];
-          updateCartUI();
-          renderProducts(allProducts);
-
-          // فتح واتساب
-          window.open(finalWaUrl, "_blank");
+          showCheckoutForm();
         };
       }
 
@@ -3475,7 +3557,14 @@
 
       function closeProductModal() {
         document.getElementById("productModal").classList.remove("active");
-        document.body.style.overflow = ""; // Restore background scrolling
+        if (
+          !document
+            .getElementById("cartSidebar")
+            .classList.contains("active") &&
+          !document.getElementById("checkoutModal").classList.contains("active")
+        ) {
+          document.body.style.overflow = ""; // Restore background scrolling
+        }
       }
 
       function nextImage() {
@@ -3578,6 +3667,74 @@
         .addEventListener("keypress", (e) => {
           if (e.key === "Enter") handleSearch();
         });
+
+      function showCheckoutForm() {
+        document.getElementById("checkoutModal").classList.add("active");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeCheckoutModal() {
+        document.getElementById("checkoutModal").classList.remove("active");
+        // Only restore body scroll if no other modal is active
+        if (
+          !document
+            .getElementById("productModal")
+            .classList.contains("active") &&
+          !document.getElementById("cartSidebar").classList.contains("active")
+        ) {
+          document.body.style.overflow = "";
+        }
+      }
+
+      function handleCheckoutSubmit(event) {
+        event.preventDefault();
+
+        const name = document.getElementById("custName").value;
+        const email = document.getElementById("custEmail").value;
+        const phone = document.getElementById("custPhone").value;
+        const location = document.getElementById("custLocation").value;
+
+        let total = 0;
+        cart.forEach((item) => (total += item.price));
+
+        const waText =
+          `طلب جديد من متجر Creative Adawy:\n\n` +
+          `*بيانات العميل:*\n` +
+          `- الاسم: ${name}\n` +
+          `- البريد: ${email}\n` +
+          `- الهاتف: ${phone}\n` +
+          `- العنوان: ${location}\n\n` +
+          `*المنتجات:*\n` +
+          cart
+            .map(
+              (i) =>
+                `- ${i.title} (${i.price} EGP) - المقاس: ${i.size}, اللون: ${i.color}`
+            )
+            .join("\n") +
+          `\n\n*الإجمالي:* ${total} EGP`;
+
+        // سجل المنتجات كمباعة
+        cart.forEach((item) => {
+          if (!soldItems.includes(item.id)) {
+            soldItems.push(item.id);
+          }
+        });
+        localStorage.setItem("soldItems", JSON.stringify(soldItems));
+
+        const finalWaUrl = `https://wa.me/2${waNumber}?text=${encodeURIComponent(
+          waText
+        )}`;
+
+        // مسح السلة وتحديث الواجهة
+        cart = [];
+        updateCartUI();
+        renderProducts(allProducts);
+
+        // إغلاق المودال وفتح واتساب
+        closeCheckoutModal();
+        toggleCart();
+        window.open(finalWaUrl, "_blank");
+      }
     </script>
   </body>
 </html>
