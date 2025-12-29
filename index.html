@@ -429,7 +429,7 @@
 
       /* About Section */
       #about {
-        background: #ffffff;
+        background: #6b6969;
         padding: 5rem 2rem;
         margin-top: 4rem;
         position: relative;
@@ -936,6 +936,9 @@
             >
               إضافة للسلة
             </button>
+            <a href="#" id="modalWaBtn" class="btn btn-wa" style="flex: 1"
+              >طلب عبر واتساب</a
+            >
           </div>
           <div style="font-size: 0.9rem; color: #666; text-align: center">
             شحن سريع لجميع المحافظات 🚚
@@ -961,7 +964,15 @@
               placeholder="أدخل اسمك بالكامل"
             />
           </div>
-
+          <div class="form-group">
+            <label>البريد الإلكتروني (Gmail)</label>
+            <input
+              type="email"
+              id="custEmail"
+              required
+              placeholder="example@gmail.com"
+            />
+          </div>
           <div class="form-group">
             <label>رقم الهاتف</label>
             <input
@@ -1002,6 +1013,12 @@
             />
           </a>
           <!-- Added Gmail icon to navbar -->
+          <a href="mailto:mmero2003@gmail.com" class="social-icon">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_(2020).svg"
+              alt="Gmail"
+            />
+          </a>
         </div>
         <div class="cart-status" onclick="toggleCart()">
           <span>السلة</span>
@@ -1064,7 +1081,23 @@
               />
               WhatsApp: 01140027588
             </a>
-
+            <a
+              href="mailto:mmero2003@gmail.com"
+              class="contact-link"
+              style="
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 12px;
+              "
+            >
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_(2020).svg"
+                class="payment-icon"
+                alt="Gmail"
+              />
+              Gmail: mmero2003@gmail.com
+            </a>
             <a
               href="#"
               class="contact-link"
@@ -3570,15 +3603,19 @@
       function addToCartFromModal() {
         if (!currentProduct) return;
 
+        sendGmailNotification(currentProduct);
+
         addToCart(currentProduct.id);
         closeProductModal();
       }
 
-      {
+      function sendGmailNotification(product) {
         const subject = encodeURIComponent("طلب جديد من السلة");
+
         const body = encodeURIComponent(
           `العميل أضاف منتجاً جديداً للسلة:\n\nالمنتج: ${product.title}\nالسعر: ${product.price} ج.م\nالرابط: ${window.location.href}`
         );
+        const mailtoLink = `mailto:mmero2003@gmail.com?subject=${subject}&body=${body}`;
 
         // Open mail client in background/new tab
         const win = window.open(mailtoLink, "_blank");
