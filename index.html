@@ -3603,7 +3603,6 @@
       function addToCartFromModal() {
         if (!currentProduct) return;
 
-        sendGmailNotification(currentProduct);
 
         addToCart(currentProduct.id);
         closeProductModal();
